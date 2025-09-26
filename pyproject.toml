@@ -1,0 +1,266 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eld-trip-planner"
+version = "1.0.0"
+description = "A comprehensive full-stack application for truck drivers to plan compliant trips and generate Electronic Logging Device (ELD) records according to FMCSA Hours of Service regulations."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "ELD Trip Planner Team", email = "support@eldtripplanner.com"}
+]
+maintainers = [
+    {name = "ELD Trip Planner Team", email = "support@eldtripplanner.com"}
+]
+keywords = [
+    "eld",
+    "electronic-logging-device",
+    "trucking",
+    "hours-of-service",
+    "fmcsa",
+    "route-planning",
+    "logistics",
+    "transportation"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Office/Business :: Scheduling",
+    "Topic :: Scientific/Engineering :: GIS",
+]
+requires-python = ">=3.9"
+dependencies = [
+    # Core Django
+    "Django>=4.2.7,<5.0",
+    "djangorestframework>=3.14.0,<4.0",
+    "django-cors-headers>=4.3.1,<5.0",
+
+    # Database
+    "psycopg2-binary>=2.9.9,<3.0",
+    "dj-database-url>=2.1.0,<3.0",
+
+    # Task Queue
+    "celery>=5.3.4,<6.0",
+    "redis>=5.0.1,<6.0",
+
+    # API and HTTP
+    "requests>=2.31.0,<3.0",
+    "httpx>=0.25.2,<1.0",
+
+    # Environment Management
+    "python-decouple>=3.8,<4.0",
+    "python-dotenv>=1.0.0,<2.0",
+
+    # Date and Time
+    "pytz>=2023.3",
+
+    # Validation
+    "jsonschema>=4.20.0,<5.0",
+
+    # Production
+    "gunicorn>=21.2.0,<22.0",
+    "whitenoise>=6.6.0,<7.0",
+    "dj-static>=0.0.6,<1.0",
+
+    # Monitoring and Logging
+    "sentry-sdk>=1.38.0,<2.0",
+
+    # Geographic and Mapping
+    "geopy>=2.4.0,<3.0",
+
+    # Math and Calculations
+    "numpy>=1.24.4,<2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Development and Testing
+    "pytest>=7.4.3,<8.0",
+    "pytest-django>=4.7.0,<5.0",
+    "pytest-cov>=4.1.0,<5.0",
+    "factory-boy>=3.3.0,<4.0",
+
+    # Code Quality
+    "black>=23.11.0,<24.0",
+    "flake8>=6.1.0,<7.0",
+    "isort>=5.12.0,<6.0",
+    "mypy>=1.7.0,<2.0",
+    "django-stubs>=4.2.7,<5.0",
+    "djangorestframework-stubs>=3.14.5,<4.0",
+
+    # Development Tools
+    "django-debug-toolbar>=4.2.0,<5.0",
+    "django-extensions>=3.2.3,<4.0",
+    "ipython>=8.17.0,<9.0",
+    "pre-commit>=3.6.0,<4.0",
+]
+
+test = [
+    "pytest>=7.4.3,<8.0",
+    "pytest-django>=4.7.0,<5.0",
+    "pytest-cov>=4.1.0,<5.0",
+    "factory-boy>=3.3.0,<4.0",
+    "coverage>=7.3.0,<8.0",
+]
+
+docs = [
+    "sphinx>=7.2.0,<8.0",
+    "sphinx-rtd-theme>=1.3.0,<2.0",
+    "sphinx-autodoc-typehints>=1.25.0,<2.0",
+]
+
+[project.urls]
+Homepage = "https://eld-trip-planner.vercel.app"
+Documentation = "https://github.com/yourusername/eld-trip-planner/wiki"
+Repository = "https://github.com/yourusername/eld-trip-planner"
+"Bug Tracker" = "https://github.com/yourusername/eld-trip-planner/issues"
+Changelog = "https://github.com/yourusername/eld-trip-planner/blob/main/CHANGELOG.md"
+
+[project.scripts]
+eld-manage = "manage:main"
+
+[tool.setuptools]
+packages = ["apps", "config", "mapping"]
+
+[tool.setuptools.package-dir]
+"" = "."
+
+[tool.black]
+line-length = 88
+target-version = ['py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | migrations
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+skip = ["migrations"]
+known_django = ["django"]
+known_first_party = ["apps", "config", "mapping"]
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "DJANGO", "FIRSTPARTY", "LOCALFOLDER"]
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = [
+    "E203",  # whitespace before ':'
+    "E501",  # line too long (handled by black)
+    "W503",  # line break before binary operator
+]
+exclude = [
+    ".git",
+    "__pycache__",
+    "*/migrations/*",
+    ".venv",
+    "build",
+    "dist",
+]
+
+[tool.mypy]
+python_version = "3.9"
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+plugins = ["mypy_django_plugin.main"]
+
+[[tool.mypy.overrides]]
+module = "*.migrations.*"
+ignore_errors = true
+
+[tool.django-stubs]
+django_settings_module = "config.settings.development"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.test"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+testpaths = ["apps", "tests"]
+addopts = [
+    "--reuse-db",
+    "--cov=apps",
+    "--cov-report=html",
+    "--cov-report=term-missing",
+    "--cov-fail-under=80",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["apps"]
+omit = [
+    "*/migrations/*",
+    "*/venv/*",
+    "*/tests/*",
+    "manage.py",
+    "*/settings/*",
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "class .*\\(Protocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", "*/migrations/*"]
+skips = ["B101", "B601"]  # Skip assert_used and shell_injection tests
+
+[tool.pylint.messages_control]
+disable = [
+    "missing-docstring",
+    "too-few-public-methods",
+    "too-many-arguments",
+    "import-error",
+    "no-member",
+]
+
+[tool.pylint.format]
+max-line-length = 88
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "1.0.0"
+tag_format = "v$version"
+version_files = [
+    "pyproject.toml:version"
+]
+bump_message = "bump: version $current_version → $new_version"
