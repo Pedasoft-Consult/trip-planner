@@ -6,13 +6,14 @@ from pathlib import Path
 from datetime import timedelta
 import os
 from decouple import config
+from upstash_redis import Redis
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-production')
+SECRET_KEY = config('SECRET_KEY', default='')
 
 # Application definition
 DJANGO_APPS = [
@@ -195,9 +196,17 @@ CORS_ALLOW_CREDENTIALS = True
 MAPBOX_API_KEY = config('MAPBOX_API_KEY', default='')
 OPENWEATHER_API_KEY = config('OPENWEATHER_API_KEY', default='')
 
-# Celery Configuration
-CELERY_BROKER_URL = config('REDIS_URL', default='redis://localhost:6379/0')
-CELERY_RESULT_BACKEND = config('REDIS_URL', default='redis://localhost:6379/0')
+# Upstash Redis connection
+UPSTASH_REDIS_URL = config("UPSTASH_REDIS_URL", default='')
+UPSTASH_REDIS_TOKEN = config("UPSTASH_REDIS_TOKEN", default='')
+
+# Upstash Redis client (for direct usage in Django)
+redis = Redis(url=UPSTASH_REDIS_URL, token=UPSTASH_REDIS_TOKEN)
+
+# Celery configuration (Upstash Redis as broker + backend)
+CELERY_BROKER_URL = f"rediss://default:{UPSTASH_REDIS_TOKEN}@{UPSTASH_REDIS_URL.replace('https://', '')}"
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
