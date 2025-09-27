@@ -27,5 +27,11 @@
     "DEBUG": "False",
     "SECRET_KEY": "django-insecure-CHANGE_THIS_TO_REAL_KEY"
   },
+  "build": {
+    "env": {
+      "PIP_NO_BINARY": ":none:",
+      "PIP_DISABLE_PIP_VERSION_CHECK": "1"
+    }
+  },
   "regions": ["iad1"]
 }
