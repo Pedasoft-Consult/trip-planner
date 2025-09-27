@@ -25,7 +25,7 @@
     "DJANGO_SETTINGS_MODULE": "config.settings.production",
     "PYTHON_VERSION": "3.9",
     "DEBUG": "False",
-    "SECRET_KEY": "@secret_key"
+    "SECRET_KEY": "django-insecure-CHANGE_THIS_TO_REAL_KEY"
   },
   "regions": ["iad1"]
 }
