@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "manage.py",
+      "src": "run.py",
       "use": "@vercel/python",
       "config": {
         "maxLambdaSize": "20mb",
@@ -17,15 +17,15 @@
     },
     {
       "src": "/(.*)",
-      "dest": "manage.py"
+      "dest": "run.py"
     }
   ],
   "env": {
+    "DJANGO_ENV": "production",
     "DJANGO_SETTINGS_MODULE": "config.settings.production",
     "PYTHON_VERSION": "3.9",
     "DEBUG": "False",
     "SECRET_KEY": "@secret_key"
   },
-  "buildsCommand": "python manage.py collectstatic --noinput && python manage.py migrate",
   "regions": ["iad1"]
 }
